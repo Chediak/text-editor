@@ -25,25 +25,27 @@
 #include "SDL_error.h"
 #include "SDL_error_c.h"
 
-int
-SDL_SetError(SDL_PRINTF_FORMAT_STRING const char *fmt, ...)
+int SDL_SetError(SDL_PRINTF_FORMAT_STRING const char *fmt, ...)
 {
     /* Ignore call if invalid format pointer was passed */
-    if (fmt != NULL) {
+    if (fmt != NULL)
+    {
         va_list ap;
         int result;
         SDL_error *error = SDL_GetErrBuf();
 
-        error->error = 1;  /* mark error as valid */
+        error->error = 1; /* mark error as valid */
 
         va_start(ap, fmt);
         result = SDL_vsnprintf(error->str, error->len, fmt, ap);
         va_end(ap);
 
-        if (result >= 0 && (size_t)result >= error->len && error->realloc_func) {
+        if (result >= 0 && (size_t)result >= error->len && error->realloc_func)
+        {
             size_t len = (size_t)result + 1;
             char *str = (char *)error->realloc_func(error->str, len);
-            if (str) {
+            if (str)
+            {
                 error->str = str;
                 error->len = len;
                 va_start(ap, fmt);
@@ -52,8 +54,8 @@ SDL_SetError(SDL_PRINTF_FORMAT_STRING const char *fmt, ...)
             }
         }
 
-
-        if (SDL_LogGetPriority(SDL_LOG_CATEGORY_ERROR) <= SDL_LOG_PRIORITY_DEBUG) {
+        if (SDL_LogGetPriority(SDL_LOG_CATEGORY_ERROR) <= SDL_LOG_PRIORITY_DEBUG)
+        {
             /* If we are in debug mode, print out the error message */
             SDL_LogDebug(SDL_LOG_CATEGORY_ERROR, "%s", error->str);
         }
@@ -70,17 +72,16 @@ SDL_GetError(void)
     return error->error ? error->str : "";
 }
 
-void
-SDL_ClearError(void)
+void SDL_ClearError(void)
 {
     SDL_GetErrBuf()->error = 0;
 }
 
 /* Very common errors go here */
-int
-SDL_Error(SDL_errorcode code)
+int SDL_Error(SDL_errorcode code)
 {
-    switch (code) {
+    switch (code)
+    {
     case SDL_ENOMEM:
         return SDL_SetError("Out of memory");
     case SDL_EFREAD:
@@ -97,8 +98,7 @@ SDL_Error(SDL_errorcode code)
 }
 
 #ifdef TEST_ERROR
-int
-main(int argc, char *argv[])
+int main(int argc, char *argv[])
 {
     char buffer[BUFSIZ + 1];
 
@@ -113,15 +113,17 @@ main(int argc, char *argv[])
 }
 #endif
 
-
 char *
 SDL_GetErrorMsg(char *errstr, int maxlen)
 {
     const SDL_error *error = SDL_GetErrBuf();
 
-    if (error->error) {
+    if (error->error)
+    {
         SDL_strlcpy(errstr, error->str, maxlen);
-    } else {
+    }
+    else
+    {
         *errstr = '\0';
     }
 
