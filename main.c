@@ -82,7 +82,7 @@ int main(void)
             }
         }
 
-        scc(SDL_SetRenderDrawColor(renderer, 100, 0, 0, 0));
+        scc(SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0));
         scc(SDL_RenderClear(renderer));
 
         SDL_RenderPresent(renderer);
