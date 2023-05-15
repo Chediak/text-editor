@@ -2,7 +2,8 @@
     "files.associations": {
         "stdio.h": "c",
         "stdlib.h": "c",
-        "sdl.h": "c"
+        "sdl.h": "c",
+        "font.h": "c"
     },
     "C_Cpp.errorSquiggles": "enabled"
 }
