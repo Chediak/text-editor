@@ -83,6 +83,12 @@ void render_text(SDL_Renderer *renderer, SDL_Texture *font, char c, Vec2f pos, U
         .h = (int)floorf(FONT_CHAR_HEIGHT * scale),
     };
 
+    scc(SDL_SetTextureColorMod(
+        font,
+        (color >> (8 * 2)) & 0xff,
+        (color >> (8 * 1)) & 0xff,
+        (color >> (8 * 0)) & 0xff));
+
     scc(SDL_RenderCopy(renderer, font, &src, &dst));
 }
 
@@ -97,6 +103,7 @@ void render_text(SDL_Renderer *renderer,
     for (size_t i = 0; i < n; ++i)
     {
         render_text(renderer, font, text[i], pen, color, scale);
+        pen.x += FONT_CHAR_WIDTH * scale;
     }
 }
 
